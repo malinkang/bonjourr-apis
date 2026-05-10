@@ -2,6 +2,12 @@
 	"name": "bonjourr-services",
 	"main": "src/index.ts",
 	"compatibility_date": "2026-05-03",
+	"routes": [
+		{
+			"pattern": "api-services.20220129.xyz",
+			"custom_domain": true
+		}
+	],
 	"d1_databases": [
 		{
 			"binding": "COLLECTIONS_DB",

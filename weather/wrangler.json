@@ -2,6 +2,12 @@
 	"name": "bonjourr-weather",
 	"main": "index.ts",
 	"compatibility_date": "2026-05-03",
+	"routes": [
+		{
+			"pattern": "api-weather.20220129.xyz",
+			"custom_domain": true
+		}
+	],
 	"dev": {
 		"ip": "127.0.0.1",
 		"port": 8888
