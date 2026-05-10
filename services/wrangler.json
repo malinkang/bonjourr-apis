@@ -4,7 +4,7 @@
 	"compatibility_date": "2026-05-03",
 	"routes": [
 		{
-			"pattern": "services.notionhub.com",
+			"pattern": "services.notionhub.app",
 			"custom_domain": true
 		}
 	],
