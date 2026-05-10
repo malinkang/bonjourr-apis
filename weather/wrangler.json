@@ -2,6 +2,12 @@
 	"name": "bonjourr-weather",
 	"main": "index.ts",
 	"compatibility_date": "2026-05-03",
+	"routes": [
+		{
+			"pattern": "api-weather.YOUR_DOMAIN.com",
+			"custom_domain": true
+		}
+	],
 	"limits": {
 		"cpu_ms": 30
 	},
