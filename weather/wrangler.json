@@ -4,7 +4,7 @@
 	"compatibility_date": "2026-05-03",
 	"routes": [
 		{
-			"pattern": "api-weather.YOUR_DOMAIN.com",
+			"pattern": "weather.notionhub.com",
 			"custom_domain": true
 		}
 	],

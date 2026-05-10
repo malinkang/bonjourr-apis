@@ -4,7 +4,7 @@
 	"compatibility_date": "2026-05-03",
 	"routes": [
 		{
-			"pattern": "api-services.YOUR_DOMAIN.com",
+			"pattern": "services.notionhub.com",
 			"custom_domain": true
 		}
 	],
