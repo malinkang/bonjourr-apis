@@ -2,22 +2,16 @@
 	"name": "bonjourr-services",
 	"main": "src/index.ts",
 	"compatibility_date": "2026-05-03",
-	"routes": [
-		{
-			"pattern": "services.notionhub.app",
-			"custom_domain": true
-		}
-	],
 	"d1_databases": [
 		{
 			"binding": "COLLECTIONS_DB",
 			"database_name": "bonjourr_collections",
-			"database_id": "3a8dccd9-7f53-480b-bc7d-701cbb97b014"
+			"database_id": "3e268c6e-a6d1-45ef-b47f-100968d4c82a"
 		},
 		{
 			"binding": "BONJOURR_DB",
 			"database_name": "bonjourr_db",
-			"database_id": "b5b6ecbe-fd0c-4095-b74a-cb9a9c56c10d"
+			"database_id": "1348d163-e805-4d24-9979-a8efa94a0e66"
 		}
 	],
 	"vars": {
@@ -37,11 +31,8 @@
 				"TESTING": true,
 				"FONT_LIST": "https://cdn.jsdelivr.net/gh/victrme/bonjourr-apis/services/assets/font_popularity.txt",
 				"PIXABAY_COLLECTIONS": "https://raw.githubusercontent.com/victrme/bonjourr-apis/refs/heads/main/services/assets/pixabay_collections.json"
-			},
+			}
 		}
-	},
-	"limits": {
-		"cpu_ms": 30
 	},
 	"dev": {
 		"ip": "127.0.0.1",
