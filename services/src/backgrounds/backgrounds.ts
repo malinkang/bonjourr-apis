@@ -15,6 +15,23 @@ import { filterPaintings } from './metmuseum/filter.ts'
 
 import type { Env } from '../index.ts'
 
+async function fallbackToUnsplashImages(url: URL, env: Env, headers: Headers): Promise<Response> {
+	if (env.UNSPLASH) {
+		try {
+			return await unsplashImagesSearch(url, headers)
+		} catch (_) {
+			// Fall through to the public Bonjourr service below.
+		}
+	}
+
+	const fallbackPath = url.pathname.replace(
+		'/backgrounds/pixabay/images/search',
+		'/backgrounds/unsplash/images/search',
+	)
+	const fallbackUrl = new URL(fallbackPath + url.search, 'https://services.bonjourr.fr')
+	return fetch(fallbackUrl.toString(), { headers })
+}
+
 export async function backgrounds(url: URL, env: Env, headers: Headers): Promise<Response> {
 	initUnsplashAuth(env)
 
@@ -50,20 +67,47 @@ export async function backgrounds(url: URL, env: Env, headers: Headers): Promise
 
 	//	Get Unsplash
 
-	if (url.pathname.includes('/backgrounds/unsplash/images/collections')) {
-		return unsplashImagesCollections(url, headers)
-	}
-	if (url.pathname.includes('/backgrounds/unsplash/images/search')) {
-		return unsplashImagesSearch(url, headers)
+	if (url.pathname.includes('/backgrounds/unsplash')) {
+		if (!env.UNSPLASH) {
+			const fallbackUrl = new URL(url.pathname + url.search, 'https://services.bonjourr.fr')
+			return fetch(fallbackUrl.toString(), { headers })
+		}
+
+		if (url.pathname.includes('/backgrounds/unsplash/images/collections')) {
+			return unsplashImagesCollections(url, headers)
+		}
+		if (url.pathname.includes('/backgrounds/unsplash/images/search')) {
+			return unsplashImagesSearch(url, headers)
+		}
 	}
 
 	//	Get Pixabay
 
 	if (url.pathname.includes('/backgrounds/pixabay/images/search')) {
-		return await pixabayImagesSearch(url, env, headers)
+		try {
+			if (!env.PIXABAY) {
+				throw new Error('Missing PIXABAY API key')
+			}
+			return await pixabayImagesSearch(url, env, headers)
+		} catch (_) {
+			return fallbackToUnsplashImages(url, env, headers)
+		}
 	}
 	if (url.pathname.includes('/backgrounds/pixabay/videos/search')) {
-		return await pixabayVideosSearch(url, env, headers)
+		try {
+			if (!env.PIXABAY) {
+				throw new Error('Missing PIXABAY API key')
+			}
+			return await pixabayVideosSearch(url, env, headers)
+		} catch (_) {
+			const fallbackUrl = new URL(url.pathname + url.search, 'https://services.bonjourr.fr')
+			const response = await fetch(fallbackUrl.toString(), { headers })
+			if (response.ok) {
+				return response
+			}
+
+			return new Response(JSON.stringify({ 'pixabay-videos-search': [] }), { headers })
+		}
 	}
 
 	// Get MET Museum

@@ -10,11 +10,14 @@ export async function pixabayImagesSearch(url: URL, env: Env, headers: Headers):
 	const orientation = url.searchParams.get('orientation') ?? 'all'
 
 	const path = 'https://pixabay.com/api'
-	const search = `?key=${key}&q=${query}&orientation=${orientation}&safesearch=true`
+	const search = `?key=${key}&q=${encodeURIComponent(query)}&orientation=${orientation}&safesearch=true`
 	const resp = await fetch(path + search)
+	if (!resp.ok) {
+		throw new Error(`Pixabay image search failed: ${resp.status}`)
+	}
 	const json = await resp.json<Pixabay>()
 
-	const arr = json.hits as PixabayImage[]
+	const arr = (json.hits ?? []) as PixabayImage[]
 	const result: Image[] = arr.map((item) => pixabayImageToGeneric(item))
 
 	return new Response(JSON.stringify({ 'pixabay-images-search': result }), {

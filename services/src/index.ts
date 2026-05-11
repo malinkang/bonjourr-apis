@@ -2,6 +2,7 @@ import { backgrounds } from './backgrounds/backgrounds.ts'
 import { unsplash } from './backgrounds/unsplash/old.ts'
 import { fonts } from './fonts.ts'
 import { proxy } from './proxy.ts'
+import { macify } from './macify.ts'
 
 import suggestions from './suggestions/src/worker.ts'
 import favicon from './favicon/package/src/index.ts'
@@ -36,10 +37,16 @@ export default {
 
 		switch (path) {
 			case 'unsplash':
-				return await unsplash(req.url, env.UNSPLASH ?? '', headers)
+				if (!env.UNSPLASH) {
+					return fetch(`https://services.bonjourr.fr${url.pathname}${url.search}`, { headers })
+				}
+				return await unsplash(req.url, env.UNSPLASH, headers)
 
 			case 'proxy':
 				return await proxy(req, headers)
+
+			case 'itunes-assets':
+				return await macify(req)
 
 			case 'fonts':
 				return await fonts(headers, env)

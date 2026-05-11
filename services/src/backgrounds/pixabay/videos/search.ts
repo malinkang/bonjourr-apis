@@ -13,11 +13,14 @@ export async function pixabayVideosSearch(url: URL, env: Env, headers: Headers):
 	const orientation = url.searchParams.get('orientation') ?? 'all'
 
 	const path = 'https://pixabay.com/api/videos'
-	const search = `?key=${key}&q=${query}&orientation=${orientation}&safesearch=true`
+	const search = `?key=${key}&q=${encodeURIComponent(query ?? '')}&orientation=${orientation}&safesearch=true`
 	const resp = await fetch(path + search)
+	if (!resp.ok) {
+		throw new Error(`Pixabay video search failed: ${resp.status}`)
+	}
 	const json = await resp.json<Pixabay>()
 
-	const arr = json.hits as PixabayVideo[]
+	const arr = (json.hits ?? []) as PixabayVideo[]
 	const result: Video[] = []
 
 	for (const item of arr) {
