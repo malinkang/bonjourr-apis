@@ -1,5 +1,6 @@
 import { unsplashImagesCollections } from './unsplash/images/collections.ts'
 import { unsplashImagesSearch } from './unsplash/images/search.ts'
+import { bingImagesSearch } from './bing/images/search.ts'
 import { storeDaylightImages } from './bonjourr/images/store/store.ts'
 import { storeDaylightVideos } from './bonjourr/videos/store/store.ts'
 import { pixabayVideosSearch } from './pixabay/videos/search.ts'
@@ -78,6 +79,16 @@ export async function backgrounds(url: URL, env: Env, headers: Headers): Promise
 		}
 		if (url.pathname.includes('/backgrounds/unsplash/images/search')) {
 			return unsplashImagesSearch(url, headers)
+		}
+	}
+
+	// Get Bing
+
+	if (url.pathname.includes('/backgrounds/bing/images/search')) {
+		try {
+			return await bingImagesSearch(url, headers)
+		} catch (_) {
+			return fallbackToUnsplashImages(url, env, headers)
 		}
 	}
 

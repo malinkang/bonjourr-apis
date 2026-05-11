@@ -1,4 +1,4 @@
-export type Provider = 'pixabay' | 'unsplash'
+export type Provider = 'bing' | 'pixabay' | 'unsplash'
 
 /**
  * Unified schema returned for Bonjourr Images

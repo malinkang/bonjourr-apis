@@ -6,6 +6,7 @@ import type { CollectionList, Media } from '../src/backgrounds/bonjourr/shared.t
 const PUBLIC_PATHS = [
 	'bonjourr/images/daylight',
 	'bonjourr/videos/daylight',
+	'bing/images/search',
 	'unsplash/images/search',
 	'unsplash/images/collections',
 	'pixabay/images/search',
