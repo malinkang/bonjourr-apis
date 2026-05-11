@@ -52,9 +52,9 @@ export async function bingImagesSearch(url: URL, headers: Headers): Promise<Resp
 		username: 'Bing',
 		name: image.title || image.copyright,
 		urls: {
-			full: normalizeBingUrl(image.urlbase || image.url, width, height),
-			medium: normalizeBingUrl(image.urlbase || image.url, '1280', '720'),
-			small: normalizeBingUrl(image.urlbase || image.url, '320', '180'),
+			full: normalizeBingUrl(image.url, width, height),
+			medium: normalizeBingUrl(image.url, '1280', '720'),
+			small: normalizeBingUrl(image.url, '320', '180'),
 		},
 	}))
 
